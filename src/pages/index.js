@@ -57,7 +57,7 @@ const IndexPage = () => {
 
   return (
     <div>
-      <p className="text-2xl">Souvick</p>
+      <p className="text-2xl">Made by Souvick Chakraborty</p>
       <Button variant="outlined" onClick={handleOpen}>
         Open dialog
       </Button>
