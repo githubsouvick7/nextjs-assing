@@ -27,7 +27,6 @@ const IndexPage = () => {
   const [repeatPeriod, setRepeatPeriod] = useState('everyWeek');
   const [selectedWeek, setSelectedWeek] = useState(0);
   const [selectedDay, setSelectedDay] = useState(4);
-  const [selectedDate, setSelectedDate] = useState('');
   const [selectedStartTime, setSelectedStartTime] = useState(null);
   const [selectedEndTime, setSelectedEndTime] = useState(null);
 
@@ -40,14 +39,11 @@ const IndexPage = () => {
   };
 
   const handleBooking = () => {
-    // Handle the booking logic here using the selected data
-    // You can perform actions like sending the data to a server, etc.
     console.log('Booking:', {
       consultationFee,
       repeatPeriod,
       selectedWeek,
       selectedDay,
-      selectedDate,
       selectedStartTime,
       selectedEndTime,
     });
@@ -133,7 +129,6 @@ const IndexPage = () => {
             <MenuItem value={4}>Thursday</MenuItem>
             <MenuItem value={5}>Friday</MenuItem>
             <MenuItem value={6}>Saterday</MenuItem>
-            {/* Add more days */}
           </TextField>
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -154,7 +149,7 @@ const IndexPage = () => {
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" onClick={handleBooking} fullWidth>
-            Book Appointment
+            SAVE
           </Button>
         </DialogActions>
       </BootstrapDialog>
