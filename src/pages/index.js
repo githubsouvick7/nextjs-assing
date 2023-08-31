@@ -73,7 +73,7 @@ const IndexPage = () => {
         </IconButton>
         <DialogContent dividers>
           <TextField
-            className="my-2"
+            className="my-3"
             id="outlined-basic"
             label="Consultation Fee"
             variant="outlined"
@@ -83,7 +83,7 @@ const IndexPage = () => {
           />
 
           <TextField
-            className="my-2"
+            className="my-3"
             id="outlined-select-repeat"
             select
             label="Repeat Period"
@@ -97,7 +97,7 @@ const IndexPage = () => {
 
           {repeatPeriod === 'everyFourWeek' && (
             <TextField
-              className="my-2"
+              className="my-3"
               id="outlined-select-week"
               select
               label="Select Week"
@@ -114,7 +114,7 @@ const IndexPage = () => {
           )}
 
           <TextField
-            className="my-2"
+            className="my-3"
             id="outlined-select-day"
             select
             label="Select Day"
@@ -154,7 +154,7 @@ const IndexPage = () => {
         </DialogActions>
       </BootstrapDialog>
     </div>
-  );
-};
+  )
+}
 
 export default IndexPage;
