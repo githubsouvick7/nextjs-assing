@@ -1,34 +1,35 @@
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import { MenuItem, TextField } from '@mui/material';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { MenuItem, TextField } from "@mui/material";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2)
   },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1)
+  }
 }));
 
 const IndexPage = () => {
   const [open, setOpen] = useState(false);
-  const [consultationFee, setConsultationFee] = useState('');
-  const [repeatPeriod, setRepeatPeriod] = useState('everyWeek');
-  const [selectedWeek, setSelectedWeek] = useState(0);
-  const [selectedDay, setSelectedDay] = useState(4);
-  const [selectedStartTime, setSelectedStartTime] = useState(null);
-  const [selectedEndTime, setSelectedEndTime] = useState(null);
+  const [Fee, setConsultationFee] = useState(500);
+  const [repeatPeriod, setRepeatPeriod] = useState("everyWeek");
+  const [Week, setSelectedWeek] = useState(0);
+  const [Day, setSelectedDay] = useState();
+  const [StartTime, setSelectedStartTime] = useState(null);
+  const [EndTime, setSelectedEndTime] = useState(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -39,38 +40,63 @@ const IndexPage = () => {
   };
 
   const handleBooking = () => {
-    console.log('Booking:', {
-      consultationFee,
+
+    const formattedStartTime = StartTime && StartTime.format('HH:mm');
+    const formattedEndTime = EndTime && EndTime.format('HH:mm');
+
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const selectedDayName = daysOfWeek[Day];
+
+    console.log("Booking:", {
+      Fee,
       repeatPeriod,
-      selectedWeek,
-      selectedDay,
-      selectedStartTime,
-      selectedEndTime,
+      Week,
+      Day: selectedDayName,
+      StartTime: formattedStartTime,
+      EndTime: formattedEndTime
     });
   };
 
-  const weeksOfMonth = ['1st', '2nd', '3rd', '4th'];
+  const handleAddTimeSlot = () => {
+    const formattedStartTime = StartTime && StartTime.format('HH:mm');
+    const formattedEndTime = EndTime && EndTime.format('HH:mm');
+
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const selectedDayName = daysOfWeek[Day];
+
+    if (selectedDayName && StartTime && EndTime) {
+      const timeSlotText = `${selectedDayName} - ${formattedStartTime} to ${formattedEndTime}`;
+      setSelectedTimeSlot(timeSlotText);
+    }
+  };
+
+  const handleRemoveTimeSlot = () => {
+    setSelectedTimeSlot(null);
+  };
+
+  const weeksOfMonth = ["1st", "2nd", "3rd", "4th"];
 
   return (
     <div>
-      <p className="text-2xl">Made by Souvick Chakraborty</p>
+      <p className="text-2xl">Souvick</p>
       <Button variant="outlined" onClick={handleOpen}>
         Open dialog
       </Button>
       <BootstrapDialog onClose={handleClose} open={open}>
-        <DialogTitle sx={{ m: 0, p: 2 }}>Doctor Appointment</DialogTitle>
+        <DialogTitle sx={{ m: 0, p: 2 }}>Book Doctor's Appointment</DialogTitle>
         <IconButton
           aria-label="close"
           onClick={handleClose}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             right: 8,
             top: 8,
-            color: (theme) => theme.palette.grey[500],
+            color: (theme) => theme.palette.grey[500]
           }}
         >
           <CloseIcon />
         </IconButton>
+        {selectedTimeSlot && <p>{selectedTimeSlot}</p>}
         <DialogContent dividers>
           <TextField
             style={{ margin: "10px 0" }}
@@ -78,7 +104,7 @@ const IndexPage = () => {
             label="Consultation Fee"
             variant="outlined"
             fullWidth
-            value={consultationFee}
+            value={Fee}
             onChange={(e) => setConsultationFee(e.target.value)}
           />
 
@@ -95,13 +121,13 @@ const IndexPage = () => {
             <MenuItem value="everyFourWeek">Every Four Week</MenuItem>
           </TextField>
 
-          {repeatPeriod === 'everyFourWeek' && (
+          {repeatPeriod === "everyFourWeek" && (
             <TextField
               style={{ margin: "10px 0" }}
               id="outlined-select-week"
               select
               label="Select Week"
-              value={selectedWeek}
+              value={Week}
               onChange={(e) => setSelectedWeek(e.target.value)}
               fullWidth
             >
@@ -118,7 +144,7 @@ const IndexPage = () => {
             id="outlined-select-day"
             select
             label="Select Day"
-            value={selectedDay}
+            value={Day}
             onChange={(e) => setSelectedDay(e.target.value)}
             fullWidth
           >
@@ -133,30 +159,37 @@ const IndexPage = () => {
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <TimePicker
-
               label="Start Time"
-              value={selectedStartTime}
+              value={StartTime}
               onChange={(time) => setSelectedStartTime(time)}
             />
           </LocalizationProvider>
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <TimePicker
-
               label="End Time"
-              value={selectedEndTime}
+              value={EndTime}
               onChange={(time) => setSelectedEndTime(time)}
             />
           </LocalizationProvider>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={handleBooking} fullWidth>
-            SAVE
+          <Button variant="outlined" onClick={handleAddTimeSlot} fullWidth>
+            Add Time Slot
           </Button>
+
+          <Button variant="outlined" onClick={handleBooking} fullWidth>
+            Book Appointment
+          </Button>
+          {selectedTimeSlot && (
+            <Button variant="outlined" onClick={handleRemoveTimeSlot} fullWidth>
+              Remove Time Slot
+            </Button>
+          )}
         </DialogActions>
       </BootstrapDialog>
     </div>
-  )
-}
+  );
+};
 
 export default IndexPage;
