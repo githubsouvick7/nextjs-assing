@@ -83,7 +83,7 @@ const IndexPage = () => {
         Open dialog
       </Button>
       <BootstrapDialog onClose={handleClose} open={open}>
-        <DialogTitle sx={{ m: 0, p: 2 }}>Book Doctor's Appointment</DialogTitle>
+        <DialogTitle sx={{ m: 0, p: 2 }}>Book Doctor Appointment</DialogTitle>
         <IconButton
           aria-label="close"
           onClick={handleClose}
